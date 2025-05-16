@@ -111,6 +111,7 @@ def home():
     <head>
         <title>Store Redirect</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             body {
                 background-color: #f1f3f5;
@@ -192,12 +193,15 @@ def home():
 
             .store-list {
                 margin: 20px auto;
-                padding: 0;
-                max-width: 400px;
+                padding: 0 1rem;
+                width: 100%;
+                max-width: 500px;
             }
 
             .store-list a {
                 display: block;
+                width: 100%;
+                text-align: center;
                 padding: 12px;
                 margin: 6px 0;
                 background-color: white;
@@ -207,10 +211,11 @@ def home():
                 border: 1px solid #dee2e6;
                 transition: background-color 0.2s ease;
             }
-
+            
             .store-list a:hover {
                 background-color: #e9ecef;
             }
+
         </style>
     </head>
     <body>
