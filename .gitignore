@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Flask specific
+instance/
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+.env.*
+
+# PyCharm or VSCode project files
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+
+# Test results
+.junit.xml
+.pytest_cache/
+
+# Compiled C files
+*.so
+
+# Static asset cache (optional)
+static/*.cache
