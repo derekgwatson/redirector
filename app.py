@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, render_template_string
 import requests
 from math import radians, cos, sin, sqrt, atan2
 
@@ -78,15 +78,6 @@ def find_nearest_store(lat, lon):
 
 @app.route("/", methods=["GET"])
 def home():
-    ip = "1.1.1.1"  # Cloudflare apparently sydney, but goes to tweed
-    ip = "49.195.128.1"  # wollongong
-    ip = "101.167.38.35"  # apparently canberra, but goes to tweed
-    ip = "194.193.34.163"  # canberra (mine)
-    ip = "101.170.52.100"  # wagga
-    ip = "115.64.33.8"
-    ip = "220.253.243.96"
-    ip = "203.14.171.185"
-    ip = "14.202.161.74"    # shoalhaven store
     ip = request.headers.get('X-Forwarded-For', request.remote_addr)
 
     lat_param = request.args.get("lat")
