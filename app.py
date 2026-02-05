@@ -261,5 +261,11 @@ def home():
     return render_template_string(html, stores=STORES, nearest_store=nearest_store)
 
 
+@app.route("/rework")
+def rework():
+    """Staff rework form selector - remembers their store choice."""
+    return app.send_static_file('rework.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)

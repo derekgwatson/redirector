@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rework Request</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: #1e3a5f;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .hint {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .home-store {
+            margin-bottom: 25px;
+        }
+
+        .home-store-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .home-store-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.4);
+        }
+
+        .home-store-btn:active {
+            transform: translateY(0);
+        }
+
+        .home-store-btn .star {
+            margin-right: 8px;
+        }
+
+        .other-stores-label {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .store-btn {
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e3a5f;
+            background: #f0f4f8;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .store-btn:hover {
+            background: #e0e8f0;
+            border-color: #2d5a87;
+        }
+
+        .store-btn:active {
+            background: #d0d8e0;
+        }
+
+        /* First visit - all buttons equal */
+        .first-visit .store-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .first-visit .store-btn {
+            padding: 18px 16px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .first-visit .store-btn:hover {
+            background: linear-gradient(135deg, #2d5a87 0%, #1e3a5f 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Odd number of stores - last one spans full width */
+        .first-visit .store-btn:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Content injected by JavaScript -->
+    </div>
+
+    <script>
+        const STORES = [
+            { id: 'shoalhaven', name: 'Shoalhaven', url: 'https://docs.google.com/forms/d/e/1FAIpQLSfOH29zQxNySOEFCgpUwLbuz6rKanTba-ojJX1r0vUV8nXspA/viewform' },
+            { id: 'batemans', name: 'Batemans Bay', url: 'https://docs.google.com/forms/d/e/1FAIpQLSezF65roiKU54t2J3TB7IG1lmVXZtKBbKGakYpOrVnhufjbsg/viewform' },
+            { id: 'canberra', name: 'Canberra', url: 'https://docs.google.com/forms/d/e/1FAIpQLScO3iSV5x3CSrfGv1Uu5BaDC3RPBcErCYLCKENPGYZU7NJzqg/viewform' },
+            { id: 'wagga', name: 'Wagga', url: 'https://docs.google.com/forms/d/e/1FAIpQLSfe4nZk3yXU9wE9SPO_ojzSZOAMRlMqW03DHc0XjgcMx76lSw/viewform' },
+            { id: 'tweed', name: 'Tweed', url: 'https://docs.google.com/forms/d/e/1FAIpQLSeK9IvxvG2KjYnZW-EQGz694B889eAlMLEng_A7nBtQNd-ABw/viewform' }
+        ];
+
+        const STORAGE_KEY = 'rework_home_store';
+
+        function getHomeStore() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                return STORES.find(s => s.id === stored);
+            }
+            return null;
+        }
+
+        function setHomeStore(storeId) {
+            localStorage.setItem(STORAGE_KEY, storeId);
+        }
+
+        function goToStore(store) {
+            setHomeStore(store.id);
+            window.location.href = store.url;
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            const homeStore = getHomeStore();
+
+            if (homeStore) {
+                // Returning user - show home store prominently
+                const otherStores = STORES.filter(s => s.id !== homeStore.id);
+
+                app.innerHTML = `
+                    <div class="logo">🔧</div>
+                    <h1>Rework Request</h1>
+
+                    <div class="home-store">
+                        <button class="home-store-btn" onclick="goToStore(STORES.find(s => s.id === '${homeStore.id}'))">
+                            <span class="star">⭐</span>${homeStore.name}
+                        </button>
+                    </div>
+
+                    <div class="other-stores-label">Other locations</div>
+                    <div class="store-grid">
+                        ${otherStores.map(store => `
+                            <button class="store-btn" onclick="goToStore(STORES.find(s => s.id === '${store.id}'))">
+                                ${store.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                // First visit - show all stores equally
+                app.classList.add('first-visit');
+
+                app.innerHTML = `
+                    <div class="logo">🔧</div>
+                    <h1>Rework Request</h1>
+                    <p class="subtitle">Select your store</p>
+                    <p class="hint">We'll remember your choice for next time</p>
+
+                    <div class="store-grid">
+                        ${STORES.map(store => `
+                            <button class="store-btn" onclick="goToStore(STORES.find(s => s.id === '${store.id}'))">
+                                ${store.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize
+        render();
+    </script>
+</body>
+</html>
