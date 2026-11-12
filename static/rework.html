@@ -159,16 +159,27 @@
 
         const STORAGE_KEY = 'rework_home_store';
 
+        // Safari throws on localStorage in Private Browsing, with "Block All
+        // Cookies" on, and on some older iOS versions. Remembering the store is
+        // a nicety - if storage is refused, still show every store button.
         function getHomeStore() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                return STORES.find(s => s.id === stored);
+            try {
+                const stored = window.localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    return STORES.find(s => s.id === stored) || null;
+                }
+            } catch (e) {
+                // storage unavailable - behave like a first visit
             }
             return null;
         }
 
         function setHomeStore(storeId) {
-            localStorage.setItem(STORAGE_KEY, storeId);
+            try {
+                window.localStorage.setItem(STORAGE_KEY, storeId);
+            } catch (e) {
+                // storage unavailable - just don't remember the choice
+            }
         }
 
         function goToStore(store) {
